@@ -28,4 +28,24 @@ export class TaskService {
         this.tasks.push(newTask);
         return newTask
     }
+
+    deleteTaskById(id:string):Task[]{
+        this.tasks=this.tasks.filter(task=>task.id!==id)
+        return this.tasks
+
+    }
+
+     updateTaskStatus(id:string,status:TaskStatus):Task{
+        let updatedTask:Task=this.getTaskById(id);
+        this.tasks=this.tasks.map((task):Task=>{
+            if(task.id===id){
+                task.status=status
+                updatedTask.status=status
+            }
+
+            return task
+        })
+        return updatedTask
+
+    }
 }

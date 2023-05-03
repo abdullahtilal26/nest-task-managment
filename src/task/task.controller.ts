@@ -1,6 +1,6 @@
-import { Controller,Get,Post,Body, Param } from '@nestjs/common';
+import { Controller,Get,Post,Body, Param, Delete, Patch } from '@nestjs/common';
 import { TaskService } from './task.service';
-import { Task } from './task.model';
+import { Task, TaskStatus } from './task.model';
 import { CreatTaskDto } from './dto/creat-task-dto';
 
 //here controller decorater annotate class ,defining this is the controller and the argument passed is the route that should be handled by this controller
@@ -43,5 +43,16 @@ export class TaskController {
      creatTask(@Body() creatTaskDto:CreatTaskDto):Task{
         console.log(creatTaskDto.title,creatTaskDto.description)
         return this.taskService.createTask(creatTaskDto)
+    }
+
+    @Delete("/:id")
+    deleteTaskById(@Param("id") id:string):Task[]{
+        return this.taskService.deleteTaskById(id)
+    }
+
+    @Patch("/:id/status")
+    updateTaskStatus(@Param("id") id:string,@Body("status") status:TaskStatus):Task{
+        //whast the point of having the enum type on status as I can pass any value thats not part of enum?
+       return this.taskService.updateTaskStatus(id,status)
     }
 }
