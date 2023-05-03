@@ -80,4 +80,13 @@ $ npm install --global @nestjs/cli
 
 # To initialize Nest project
 $ nest new nest-task-managment
+
+#Create module
+$ nest g module task
+
+#Create Controller with no unit test
+$ nest g controller task --no-spec
+
+# decorater allow class or class members to be annoted in order to add extra functionality
+
 ```
