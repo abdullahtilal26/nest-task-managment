@@ -71,3 +71,13 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+## Notes
+
+```bash
+# To install nest cli nest project
+$ npm install --global @nestjs/cli
+
+# To initialize Nest project
+$ nest new nest-task-managment
+```
