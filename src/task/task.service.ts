@@ -10,6 +10,10 @@ export class TaskService {
         return this.tasks
     }
 
+    getTaskById(id:string):Task{
+        return this.tasks.find(task=>task.id===id)
+    }
+
     createTask(creatTaskDto:CreatTaskDto):Task{
         const {title,description}=creatTaskDto
         const newTask:Task={

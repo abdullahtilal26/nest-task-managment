@@ -1,4 +1,4 @@
-import { Controller,Get,Post,Body } from '@nestjs/common';
+import { Controller,Get,Post,Body, Param } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { Task } from './task.model';
 import { CreatTaskDto } from './dto/creat-task-dto';
@@ -13,6 +13,18 @@ export class TaskController {
     @Get()
     getAllTasks():Task[]{
         return this.taskService.getAllTasks()
+    }
+
+    //request paramtere example
+    //one way
+    // @Get(":id")
+
+    //another way
+    @Get("/:id")
+    getTaskById(@Param("id") id:string):Task{
+        console.log(typeof id)
+        //do i need to define string for "id" type?
+        return this.taskService.getTaskById(id);
     }
 
     @Post()
