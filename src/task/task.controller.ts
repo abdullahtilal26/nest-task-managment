@@ -1,8 +1,8 @@
-import { Controller,Get,Post,Body, Param, Delete, Patch } from '@nestjs/common';
+import { Controller,Get,Post,Body, Param, Delete, Patch, UsePipes, ValidationPipe } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { Task, TaskStatus } from './task.model';
 import { CreatTaskDto } from './dto/creat-task-dto';
-
+import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
 //here controller decorater annotate class ,defining this is the controller and the argument passed is the route that should be handled by this controller
 @Controller('task')
 export class TaskController {
@@ -40,6 +40,7 @@ export class TaskController {
     // }
 
     //DTO WAY
+    @UsePipes(ValidationPipe)//nesecarry if we want the request body be validated agains the validation decorators in dto as request body type is dto
      creatTask(@Body() creatTaskDto:CreatTaskDto):Task{
         console.log(creatTaskDto.title,creatTaskDto.description)
         return this.taskService.createTask(creatTaskDto)
@@ -51,7 +52,8 @@ export class TaskController {
     }
 
     @Patch("/:id/status")
-    updateTaskStatus(@Param("id") id:string,@Body("status") status:TaskStatus):Task{
+    updateTaskStatus(@Param("id") id:string,@Body("status",new TaskStatusValidationPipe()) status:TaskStatus):Task{
+        //CAN also use the custom pipe of TaskStatusValidationPipe without creating a object and just passing the name
         //whast the point of having the enum type on status as I can pass any value thats not part of enum?
        return this.taskService.updateTaskStatus(id,status)
     }
