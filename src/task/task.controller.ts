@@ -1,8 +1,9 @@
-import { Controller,Get,Post,Body, Param, Delete, Patch, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller,Get,Post,Body, Param,Query, Delete, Patch, UsePipes, ValidationPipe } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { Task, TaskStatus } from './task.model';
 import { CreatTaskDto } from './dto/creat-task-dto';
 import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
+import { GetTaskFilterDto } from './dto/get-task-filter.dto';
 //here controller decorater annotate class ,defining this is the controller and the argument passed is the route that should be handled by this controller
 @Controller('task')
 export class TaskController {
@@ -11,10 +12,17 @@ export class TaskController {
     }
 
     @Get()
-    getAllTasks():Task[]{
-        return this.taskService.getAllTasks()
+    getTasks(@Query() filterDto:GetTaskFilterDto):Task[]{
+        if(Object.keys(filterDto).length){
+            return this.taskService.getAllFilteredTasks(filterDto)
+        }
+        else{
+             return this.taskService.getAllTasks()
+        }
+       
     }
 
+  
     //request paramtere example
     //one way
     // @Get(":id")
